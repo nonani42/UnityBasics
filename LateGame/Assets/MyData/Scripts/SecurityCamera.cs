@@ -10,7 +10,7 @@ public class SecurityCamera : MonoBehaviour
     Vector3 stepDirection;
     Quaternion _returnRot;
     private float step = 0f;
-    private GameObject boss;
+    private Boss boss;
 
     void Start()
     {
@@ -42,9 +42,9 @@ public class SecurityCamera : MonoBehaviour
             {
                 _target = other.gameObject;
                 _returnRot = transform.rotation;
-                boss = GameObject.FindGameObjectWithTag("Boss");
-                boss.GetComponent<Boss>().IsAlert = true;
-                boss.GetComponent<Boss>().Target = other.transform;
+                boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
+                boss.IsAlert = true;
+                boss.Target = other.transform;
             }
         }
     }

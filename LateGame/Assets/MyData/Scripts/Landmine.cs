@@ -16,14 +16,19 @@ public class Landmine : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Untagged"))
+        if (other.TryGetComponent(out Rigidbody rb))
         {
             _rbLandmine.AddForce(Vector3.up * explosionForce * upwardsModifier * _rbLandmine.mass);
-            other.GetComponent<Rigidbody>().AddForce(Vector3.up * explosionForce * upwardsModifier * other.GetComponent<Rigidbody>().mass);
-            //_rbLandmine.AddExplosionForce(explosionForce, transform.position, explosionRadius, upwardsModifier, ForceMode.Impulse);
-            //other.GetComponent<Rigidbody>().AddExplosionForce(4000f, transform.position, 15f, 45f, ForceMode.Impulse);
-            Destroy(other.gameObject, time);
-            Destroy(gameObject, time);
+            rb.AddForce(Vector3.up * explosionForce * upwardsModifier * rb.mass);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+            foreach(Collider coll in colliders)
+            {
+                if (coll.TryGetComponent(out Rigidbody foundrb))
+                {
+                    foundrb.AddExplosionForce(explosionForce, transform.position, explosionRadius, upwardsModifier, ForceMode.Impulse);
+                }
+            }
+            Destroy(gameObject);
         }
     }
 }

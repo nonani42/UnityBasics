@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class Finish : MonoBehaviour
 {
+    private Animator _anim;
+    public void Awake()
+    {
+        _anim = GetComponent<Animator>();
+    }
     public void OnTriggerEnter(Collider other)
     {
         Destroy(GetComponent<BoxCollider>());
@@ -13,6 +18,7 @@ public class Finish : MonoBehaviour
         {
             case "Player":
                 Debug.Log("To the next level.");
+                _anim.SetTrigger("_open");
                 //Load();
                 break;
             case "Colleague":

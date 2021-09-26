@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _speed = 1f;
+    [SerializeField] private float _speed = 30f;
     [SerializeField] private float _lifetime = 5f;
     private Rigidbody _rbBullet;
     void Awake()
@@ -14,9 +14,10 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, _lifetime);
+        _rbBullet.AddForce(transform.forward * _speed, ForceMode.Impulse);
     }
-    void FixedUpdate()
+    private void OnCollisionEnter(Collision collision)
     {
-        _rbBullet.AddForce(transform.forward * _speed * Time.fixedDeltaTime, ForceMode.Impulse);
+        Destroy(gameObject);
     }
 }
