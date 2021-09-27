@@ -10,20 +10,13 @@ public class Boss : MonoBehaviour
     private NavMeshAgent agent;
     int count = 0;
     private bool _isAlert;
-    private Animator _anim;
-    private Transform _target;
+    public Animator _anim;
+    public Vector3 _target;
     public bool IsAlert
     {
         set
         {
             _isAlert = value;
-        }
-    }
-    public Transform Target
-    {
-        set
-        {
-            _target = value;
         }
     }
     void Awake()
@@ -54,11 +47,14 @@ public class Boss : MonoBehaviour
     {
         if (_isAlert)
         {
-            agent.speed = _speed * 2f;
-            agent.SetDestination(_target.position);
-            if(transform.position == _target.position && !_target.GetComponent<Player>().IsFound)
+            //agent.speed = _speed + 2f;
+            agent.SetDestination(_target);
+            _anim.SetBool("_alert", true);
+            if(agent.remainingDistance <= agent.stoppingDistance)
             {
+                Debug.Log("Back to pATROL");
                 _isAlert = false;
+                _anim.SetBool("_alert", false);
                 agent.speed = _speed;
                 agent.SetDestination(_waypoints[count].position);
             }
@@ -70,10 +66,19 @@ public class Boss : MonoBehaviour
         {
             if (!other.GetComponent<Player>().HasEgg)
             {
+                _anim.SetTrigger("_caught");
+                _anim.SetBool("_patrol", false);
+                agent.isStopped = true;
                 other.GetComponent<Player>().IsFound = true;
                 Debug.Log("Game over");
             }
         }
+    }
+    public void Stop()
+    {
+        _anim.SetTrigger("_finished");
+        _anim.SetBool("_patrol", false);
+        agent.isStopped = true;
     }
     IEnumerator Parabola(NavMeshAgent agent, float height, float duration)
     {
@@ -81,6 +86,7 @@ public class Boss : MonoBehaviour
         Vector3 startPos = agent.transform.position;
         Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
         float normalizedTime = 0.0f;
+        _anim.SetBool("_jump", true);
         while (normalizedTime < 1.0f)
         {
             float yOffset = height * 4.0f * (normalizedTime - normalizedTime * normalizedTime);
@@ -88,5 +94,6 @@ public class Boss : MonoBehaviour
             normalizedTime += Time.deltaTime / duration;
             yield return null;
         }
+        _anim.SetBool("_jump", false);
     }
 }

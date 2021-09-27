@@ -43,8 +43,9 @@ public class SecurityCamera : MonoBehaviour
                 _target = other.gameObject;
                 _returnRot = transform.rotation;
                 boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
+                Debug.Log("You've been spotted.");
                 boss.IsAlert = true;
-                boss.Target = other.transform;
+                boss._target = other.transform.position;
             }
         }
     }

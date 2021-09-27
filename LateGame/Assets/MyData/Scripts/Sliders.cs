@@ -32,7 +32,8 @@ public class Sliders : MonoBehaviour
             {
                 keycard.GetComponent<BoxCollider>().enabled = true;
             }
-            gameObject.GetComponent<BoxCollider>().isTrigger = false;
+            //gameObject.GetComponent<BoxCollider>().isTrigger = false;
+            gameObject.GetComponent<BoxCollider>().enabled = false;
             isPlayerStay = false;
         }
     }

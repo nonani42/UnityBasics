@@ -5,9 +5,12 @@ using UnityEngine;
 public class FinishGame : MonoBehaviour
 {
     private Animator _anim;
+    private Boss boss;
+
     public void Awake()
     {
         _anim = GetComponent<Animator>();
+        boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
     }
     public void OnTriggerEnter(Collider other)
     {
@@ -15,6 +18,7 @@ public class FinishGame : MonoBehaviour
         {
             Debug.Log("You won.");
             _anim.SetTrigger("_open");
+            boss.Stop();
             Destroy(GetComponent<BoxCollider>());
         }
     }

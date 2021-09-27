@@ -14,6 +14,7 @@ public class Finish : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         Destroy(GetComponent<BoxCollider>());
+        GameObject.FindGameObjectWithTag("Colleague").GetComponent<Colleague>().Stop();
         switch (other.tag)
         {
             case "Player":
@@ -31,7 +32,6 @@ public class Finish : MonoBehaviour
 
     public void GameOver()
     {
-        GameObject.FindGameObjectWithTag("Colleague").GetComponent<Animator>().runtimeAnimatorController = (RuntimeAnimatorController)Resources.Load("Assets/Import/Kevin Iglesias/Basic Motions/AnimationControllers/BasicMotions@Idle.controller");
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>()._hasLost = true;
         Debug.Log("Game over.");
     }
