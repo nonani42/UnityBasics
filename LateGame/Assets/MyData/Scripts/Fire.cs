@@ -19,15 +19,18 @@ public class Fire : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(Time.deltaTime != 0)
         {
-            _isFire = true;
-            MainFire();
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            _isLandmine = true;
-            SetLandmine();
+            if (Input.GetMouseButtonDown(0))
+            {
+                _isFire = true;
+                MainFire();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                _isLandmine = true;
+                SetLandmine();
+            }
         }
     }
 

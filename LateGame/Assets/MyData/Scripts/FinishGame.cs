@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinishGame : MonoBehaviour
 {
     private Animator _anim;
+    GameObject bossObj;
     private Boss boss;
 
     public void Awake()
     {
+        bossObj = GameObject.FindGameObjectWithTag("Boss");
         _anim = GetComponent<Animator>();
-        boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<Boss>();
+        if(bossObj != null)
+        {
+            boss = bossObj.GetComponent<Boss>();
+        }
     }
     public void OnTriggerEnter(Collider other)
     {
@@ -20,6 +26,8 @@ public class FinishGame : MonoBehaviour
             _anim.SetTrigger("_open");
             boss.Stop();
             Destroy(GetComponent<BoxCollider>());
+            Destroy(other.gameObject);
+            SceneManager.LoadScene(0);
         }
     }
 }

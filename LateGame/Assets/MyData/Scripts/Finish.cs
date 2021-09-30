@@ -7,9 +7,11 @@ using UnityEngine.SceneManagement;
 public class Finish : MonoBehaviour
 {
     private Animator _anim;
+    Scene nextScene;
     public void Awake()
     {
         _anim = GetComponent<Animator>();
+        nextScene = SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1);
     }
     public void OnTriggerEnter(Collider other)
     {
@@ -20,7 +22,7 @@ public class Finish : MonoBehaviour
             case "Player":
                 Debug.Log("To the next level.");
                 _anim.SetTrigger("_open");
-                //Load();
+                Load();
                 break;
             case "Colleague":
                 GameOver();
@@ -33,18 +35,14 @@ public class Finish : MonoBehaviour
     public void GameOver()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>()._hasLost = true;
-        Debug.Log("Game over.");
+        SceneManager.LoadScene(0);
     }
 
-    private static void Load()
+    public void Load()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (SceneManager.GetActiveScene().name == "Level1")
-        {
-            Scene nextScene = SceneManager.GetSceneByPath(@"Assets\MyData\Scenes\Level2.unity");
-            Debug.Log($"Next level is {nextScene.name}");
-            SceneManager.LoadScene(nextScene.name);
-            SceneManager.MoveGameObjectToScene(player, nextScene);
-        }
+        DontDestroyOnLoad(player);
+        //SceneManager.MoveGameObjectToScene(player, SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

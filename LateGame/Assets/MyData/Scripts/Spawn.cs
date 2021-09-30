@@ -13,22 +13,36 @@ public class Spawn : MonoBehaviour
     [SerializeField] private GameObject[] spawnPointsEgg;
     System.Random rand;
     GameObject point;
+    List<GameObject> points;
     int buffAmount = 3;
     int debuffAmount = 3;
     List <GameObject> buffs;
     List <GameObject> debuffs;
     GameObject egg;
 
-    void Start()
+    public List<GameObject> Points
+    {
+        get
+        {
+            return points;
+        }
+    }
+    void Awake()
     {
         rand = new System.Random();
+        points = new List<GameObject>();
         GenerateBuffs();
         GenerateEgg();
         GenerateDebuffs();
     }
+    void Start()
+    {
+
+    }
     private void GenerateEgg()
     {
         point = spawnPointsEgg[rand.Next(spawnPointsEgg.Length)];
+        points.Add(point);
         egg = Instantiate(eggPrefab, point.transform.position, point.transform.rotation);
     }
     private void GenerateBuffs()
@@ -40,6 +54,7 @@ public class Spawn : MonoBehaviour
             if (buffs.Count == 0 || !buffs.Contains(point))
             {
                 buffs.Add(point);
+                points.Add(point);
             }
         } while (buffs.Count != buffAmount);
         for(int i = 0; i< buffs.Count; i++)
@@ -56,6 +71,7 @@ public class Spawn : MonoBehaviour
             if (debuffs.Count == 0 || !debuffs.Contains(point))
             {
                 debuffs.Add(point);
+                points.Add(point);
             }
         } while (debuffs.Count != debuffAmount);
         for (int i = 0; i < debuffs.Count; i++)

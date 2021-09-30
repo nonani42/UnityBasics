@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] float _speed = 6f;
+    [SerializeField] float _speed = 10f;
     [SerializeField] float rotationSpeed = 1000f;
     [SerializeField] Rigidbody _rbPlayer;
     private Animator _anim;
