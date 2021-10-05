@@ -8,6 +8,7 @@ public class FinishGame : MonoBehaviour
     private Animator _anim;
     GameObject bossObj;
     private Boss boss;
+    [SerializeField] GameObject _winScreen;
 
     public void Awake()
     {
@@ -26,8 +27,14 @@ public class FinishGame : MonoBehaviour
             _anim.SetTrigger("_open");
             boss.Stop();
             Destroy(GetComponent<BoxCollider>());
-            Destroy(other.gameObject);
-            SceneManager.LoadScene(0);
+            Win();
         }
+    }
+    public void Win()
+    {
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        _winScreen.SetActive(true);
     }
 }

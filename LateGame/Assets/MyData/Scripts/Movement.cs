@@ -8,9 +8,11 @@ public class Movement : MonoBehaviour
     [SerializeField] float rotationSpeed = 1000f;
     [SerializeField] Rigidbody _rbPlayer;
     private Animator _anim;
+    private AudioSource _audio;
     private Player player;
     private float jumpHeight = 250f;
     bool _isJump = false;
+    bool _isMove = false;
     Vector3 _direction;
     Vector3 _jump;
     float rotX;
@@ -24,6 +26,8 @@ public class Movement : MonoBehaviour
         _rbPlayer = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
         player = gameObject.GetComponent<Player>();
+        _audio = GetComponent<AudioSource>();
+
     }
     void Start()
     {
@@ -39,6 +43,7 @@ public class Movement : MonoBehaviour
             _speed = _speed + player.Buff;
             player.Buff = 0;
         }
+
     }
     void FixedUpdate()
     {
@@ -46,9 +51,18 @@ public class Movement : MonoBehaviour
         _direction.y = 0;
         _direction.z = Input.GetAxis("Vertical");
         if (_direction != Vector3.zero)
+        {
             _anim.SetBool("Moves", true);
+            if (!_audio.isPlaying)
+            {
+                _audio.Play();
+            }
+        }
         else
+        {
             _anim.SetBool("Moves", false);
+            _audio.Pause();
+        }
         _direction = transform.TransformDirection(_direction);
         _rbPlayer.MovePosition(transform.position + _direction.normalized * _speed * Time.fixedDeltaTime);
         rotX += Input.GetAxis("Mouse X") * rotationSpeed * Time.fixedDeltaTime;

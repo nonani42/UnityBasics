@@ -9,6 +9,7 @@ public class LevelLogic : MonoBehaviour
     [SerializeField] GameObject _map;
     public void Start()
     {
+        Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -25,6 +26,11 @@ public class LevelLogic : MonoBehaviour
     public void Resume()
     {
         Time.timeScale = 1;
+    }    
+    public void BackToMenu()
+    {
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
+        SceneManager.LoadScene(0);
     }
     public IEnumerator ShowMap()
     {
@@ -35,4 +41,5 @@ public class LevelLogic : MonoBehaviour
             Resume();
         }
     }
+
 }

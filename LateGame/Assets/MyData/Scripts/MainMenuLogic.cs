@@ -8,7 +8,8 @@ public class MainMenuLogic : MonoBehaviour
     [SerializeField] GameObject _menu;
     public void Start()
     {
-        //_menu = gameObject;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     public void StartGame()
     {
@@ -29,6 +30,7 @@ public class MainMenuLogic : MonoBehaviour
 
     public void Pause()
     {
+        Debug.Log("Pause");
         Time.timeScale = 0;
         _menu.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
